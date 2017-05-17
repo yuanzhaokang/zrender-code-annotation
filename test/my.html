@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="utf-8" />
+   <title>Text</title>
+   <script type="text/javascript" src="./esl.js"></script>
+</head>
+
+<body style="margin:0">
+   <div id="main" style="width:1000px;height:600px;margin:0;"></div>
+
+   <script type="text/javascript">
+      require.config({
+         packages: [
+            {
+               name: 'zrender',
+               location: '../src',
+               main: 'zrender'
+            }
+         ]
+      });
+
+      require(["zrender", 'zrender/graphic/shape/Circle', 'zrender/container/Group'], function (zrender, Circle, Group) {
+         // 初始化zrender
+         var zr = zrender.init(document.getElementById("main"), {
+            // renderer: 'svg'
+         });
+
+         //   var text = new ZText({
+         //       // position : [50, 50],
+         //       // rotation: 1,
+         //       // scale: [2, 2],
+         //       style: {
+         //           x: 0,
+         //           y: 0,
+         //           text: '国国国国\n国国国国\n国国国国',
+         //           width: 50,
+         //           height: 50,
+         //           fill: '#c0f',
+         //           textFont: '18px Microsoft Yahei',
+         //           textBaseline: 'top'
+         //       },
+         //       draggable: true
+         //   });
+         //   zr.add(text);
+
+         var g = new Group();
+         var c = new Circle({
+            shape: {
+               cx: 100,
+               cy: 100,
+               r: 0
+            },
+            style: {
+               stroke: 'rgba(255,255,0,1)',
+               fill: null
+            }
+         });
+
+         c.animateShape(true)
+            .when(1000, {
+               r: 100
+            })
+            .start();
+
+         g.add(c);
+         zr.add(g);
+      });
+   </script>
+</body>
+
+</html>
