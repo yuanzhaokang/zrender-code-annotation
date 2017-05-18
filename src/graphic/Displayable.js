@@ -240,6 +240,7 @@ define(function (require) {
         },
 
         /**
+         * 可设置style，设置之后会立即更新. Path.js中设置setShape.
          * @param {Object|string} key
          * @param {*} value
          */

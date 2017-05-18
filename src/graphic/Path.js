@@ -283,6 +283,7 @@ define(function (require) {
         },
 
         /**
+         * 可设置shape，设置之后会立即更新. 在Displayable.js中设置setStyle.
          * @param {Object|string} key
          * @param {*} value
          */

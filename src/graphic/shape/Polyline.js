@@ -1,4 +1,5 @@
 /**
+ * 用来绘制多点的连线.
  * @module zrender/graphic/shape/Polyline
  */
 define(function (require) {
@@ -8,6 +9,22 @@ define(function (require) {
     return require('../Path').extend({
         
         type: 'polyline',
+
+        /**
+         * points的结构. 数组.
+         * let polyline = new Polyline({
+                shape: {
+                    points: [
+                    [10, 10],
+                    [20, 20],
+                    [100, 30]
+                    ]
+                },
+                style: {
+                    stroke: '#ff0000'
+                }
+            });
+         */
 
         shape: {
             points: null,
