@@ -7,11 +7,11 @@ define(function(require) {
 
     /**
      * x, y, x2, y2 are all percent from 0 to 1
-     * @param {number} [x=0]
+     * @param {number} [x=0] // 渐变的起始点
      * @param {number} [y=0]
-     * @param {number} [x2=1]
+     * @param {number} [x2=1] // 渐变的结束点
      * @param {number} [y2=0]
-     * @param {Array.<Object>} colorStops
+     * @param {Array.<Object>} colorStops // 结构类似于RadiusGradient的colorStop.
      * @param {boolean} [globalCoord=false]
      */
     var LinearGradient = function (x, y, x2, y2, colorStops, globalCoord) {

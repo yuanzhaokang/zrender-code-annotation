@@ -10,7 +10,9 @@ define(function (require) {
         // Can be cloned
         this.type = 'pattern';
     };
-
+    /**
+     * 指定的方向内重复指定的元素。`repeat|repeat-x|repeat-y|no-repeat`
+     */
     Pattern.prototype.getCanvasPattern = function (ctx) {
         return ctx.createPattern(this.image, this.repeat || 'repeat');
     };

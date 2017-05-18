@@ -4,7 +4,7 @@ define(function (require) {
     var PathProxy = require('../core/PathProxy');
     var transformPath = require('./transformPath');
 
-    // command chars
+    // command chars SVG的微语言.
     var cc = [
         'm', 'M', 'l', 'L', 'v', 'V', 'h', 'H', 'z', 'Z',
         'c', 'C', 'q', 'Q', 't', 'T', 's', 'S', 'a', 'A'
@@ -26,6 +26,20 @@ define(function (require) {
                 * Math.acos(vRatio(u, v));
     };
 
+    /**
+     * 用于处理SVG的a命令.
+     * @param {*} x1 
+     * @param {*} y1 
+     * @param {*} x2 
+     * @param {*} y2 
+     * @param {*} fa 
+     * @param {*} fs 
+     * @param {*} rx 
+     * @param {*} ry 
+     * @param {*} psiDeg 
+     * @param {*} cmd 
+     * @param {*} path 
+     */
     function processArc(x1, y1, x2, y2, fa, fs, rx, ry, psiDeg, cmd, path) {
         var psi = psiDeg * (PI / 180.0);
         var xp = mathCos(psi) * (x1 - x2) / 2.0
@@ -78,6 +92,21 @@ define(function (require) {
         path.addData(cmd, cx, cy, rx, ry, theta, dTheta, psi, fs);
     }
 
+    /**
+     * 可以用方法解析SVG的path的d属性字符串生成一个PathProxy, 然后调用PathProxy的rebuidPath(ctx)生成path.
+     * 可以在自定义的buildPath(ctx, shape)方法中使用这个函数, 解析SVG的path. 比如,有一个飞机的svg文件, 飞机由
+     * 一个path构成:
+     * d = `M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491
+     *    c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288
+     *    l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034
+     *    l-134.449-92.931l12.238-241.308L1705.06,1318.313z`
+     * buildPath(ctx, path) {
+     *    let pathProxy = createPathProxyFromString(d);
+     *    pathProxy.rebuild(ctx);
+     *    // 也可以在此定义style等属性.
+     * }
+     * @param {*string} data 
+     */
     function createPathProxyFromString(data) {
         if (!data) {
             return [];
@@ -279,15 +308,15 @@ define(function (require) {
                         path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
                         break;
                     case 'A':
-                        rx = p[off++];
-                        ry = p[off++];
-                        psi = p[off++];
-                        fa = p[off++];
-                        fs = p[off++];
+                        rx = p[off++]; // 圆x方向的半径
+                        ry = p[off++]; // 圆y方向的半径
+                        psi = p[off++]; // x旋转角度
+                        fa = p[off++]; // 大圆标识
+                        fs = p[off++]; // 逆顺时针标识
 
                         x1 = cpx, y1 = cpy;
-                        cpx = p[off++];
-                        cpy = p[off++];
+                        cpx = p[off++]; // 目标点x
+                        cpy = p[off++]; // 目标点y
                         cmd = CMD.A;
                         processArc(
                             x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd, path
@@ -319,14 +348,19 @@ define(function (require) {
             prevCmd = cmd;
         }
 
-        path.toStatic();
+        path.toStatic(); // PathProxy的方法. 转成静态的 Float32Array 减少堆内存占用
 
         return path;
     }
 
     // TODO Optimize double memory cost problem
+    /**
+     * 可直接生成Shape，生成的Shape可被zr.add(shape)添加绘制.
+     * @param {*string} str. svg字符串. 
+     * @param {*} opts . style之类的.
+     */
     function createPathOptions(str, opts) {
-        var pathProxy = createPathProxyFromString(str);
+        var pathProxy = createPathProxyFromString(str); // 创建PathPorxy
         opts = opts || {};
         opts.buildPath = function (path) { // path is PathProxy
             if (path.setData) {
@@ -372,7 +406,7 @@ define(function (require) {
         },
 
         /**
-         * Merge multiple paths
+         * Merge multiple paths. @wind. 疑问, 好像没法生成多个path.
          */
         // TODO Apply transform
         // TODO stroke dash

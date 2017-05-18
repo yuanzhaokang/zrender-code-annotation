@@ -7,11 +7,21 @@ define(function(require) {
 
     /**
      * x, y, r are all percent from 0 to 1
-     * @param {number} [x=0.5]
+     * @param {number} [x=0.5] 渐变的百分比中心位置x,y.
      * @param {number} [y=0.5]
-     * @param {number} [r=0.5]
-     * @param {Array.<Object>} [colorStops]
+     * @param {number} [r=0.5] 渐变的百分比半径.
+     * @param {Array.<Object>} [colorStops] [{
+                offset: 0,
+                color: 'rgba(255, 255, 0, 0)'
+       }]
+     *  
      * @param {boolean} [globalCoord=false]
+     * 
+     * let gradient = new RadialGradient(0.5, 0.5, 0.5, [{
+                offset: 0,
+                color: 'rgba(255, 255, 0, 0)'
+            },
+        ]);
      */
     var RadialGradient = function (x, y, r, colorStops, globalCoord) {
         // Should do nothing more in this constructor. Because gradient can be

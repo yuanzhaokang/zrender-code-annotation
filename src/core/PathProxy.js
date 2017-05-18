@@ -97,7 +97,7 @@ define(function (require) {
         _dashSum: 0,
 
         /**
-         * @readOnly
+         * @readOnly @wind疑问. 设置无效.
          */
         setScale: function (sx, sy) {
             this._ux = mathAbs(1 / dpr / sx) || 0;

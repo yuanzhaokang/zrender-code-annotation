@@ -7,6 +7,18 @@ define(function (require) {
     var points = [[], [], []];
     var mathSqrt = Math.sqrt;
     var mathAtan2 = Math.atan2;
+
+    /**
+     * 
+     * @param {*PathProxy} path 对生成的PathProxy进行transform. 
+     * @param {*Array} m. Array. 和context.transform(a, b, c, d, e, f)相同.
+     *    a:水平缩放绘图;
+     *    b:水平倾斜绘图;
+     *    c:垂直倾斜绘图;
+     *    d:垂直缩放绘图.
+     *    e:水平移动绘图;
+     *    f:垂直移动绘图;
+     */
     function transformPath(path, m) {
         var data = path.data;
         var cmd;
@@ -26,7 +38,7 @@ define(function (require) {
         for (i = 0, j = 0; i < data.length;) {
             cmd = data[i++];
             j = i;
-            nPoint = 0;
+            nPoint = 0; //SVG每条微命令后面点的个数. 比如M100 100, 点只有一个是(100, 100), nPoint = 1.
 
             switch (cmd) {
                 case M:

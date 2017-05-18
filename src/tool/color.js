@@ -3,7 +3,7 @@
  */
 define(function(require) {
 
-    var LRU = require('../core/LRU');
+    var LRU = require('../core/LRU'); // 使用LRU算法来缓存数据, 减少颜色的计算.
 
     var kCSSColorTable = {
         'transparent': [0,0,0,0], 'aliceblue': [240,248,255,1],
@@ -152,12 +152,13 @@ define(function(require) {
         lastRemovedArr = colorCache.put(colorStr, lastRemovedArr || (rgbaArr.slice()));
     }
     /**
+     * 能把16进制和rgba的字符串转换成[r,g,b,a]这样的数组.
      * @param {string} colorStr
      * @param {Array.<number>} out
      * @return {Array.<number>}
      * @memberOf module:zrender/util/color
      */
-    function parse(colorStr, rgbaArr) { // 能把16进制和rgba的字符串转换成[r,g,b,a]这样的数组.
+    function parse(colorStr, rgbaArr) {
         if (!colorStr) {
             return;
         }

@@ -288,7 +288,7 @@ define(function (require) {
             return newStyle;
         },
 
-        getGradient: function (ctx, obj, rect) {
+        getGradient: function (ctx, obj, rect) { // 衔接Gradient.
             var method = obj.type === 'radial' ? createRadialGradient : createLinearGradient;
             var canvasGradient = method(ctx, obj, rect);
             var colorStops = obj.colorStops;
