@@ -54,6 +54,7 @@ define(function (require) {
             var hasFillPattern = hasFill && !!(fill.image);
             var hasStrokePattern = hasStroke && !!(stroke.image);
 
+            // 调用Style的bind方法把style赋给context.
             style.bind(ctx, this, prevEl);
             this.setTransform(ctx);
 
@@ -109,6 +110,7 @@ define(function (require) {
                     path.setLineDashOffset(lineDashOffset);
                 }
 
+                // 调用shape的buildPath方法. path包装了CanvasContext2D. 是一个PathProxy.
                 this.buildPath(path, this.shape, false);
 
                 // Clear path dirty flag
