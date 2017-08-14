@@ -581,11 +581,14 @@
                         scope.prevElClipPaths = clipPaths;
                     }
                 }
+
+                // 先调用 beforeBrush，然后brush, afterBrush. buildPath在brush中调用.
                 el.beforeBrush && el.beforeBrush(ctx);
 
                 el.brush(ctx, scope.prevEl || null);
                 scope.prevEl = el;
 
+                // afterBrush 之后社会lineWidth = 0, 无法生效.
                 el.afterBrush && el.afterBrush(ctx);
             }
         },
