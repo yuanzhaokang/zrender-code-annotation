@@ -265,6 +265,7 @@ define(function (require) {
             }
         },
 
+        // 调用dirty 将会重绘.
         dirty: function () {
             this.__dirty = true;
             this.__zr && this.__zr.refresh();
