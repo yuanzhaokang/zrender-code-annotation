@@ -24,7 +24,7 @@ define(function (require) {
     var Transformable = function (opts) {
         opts = opts || {};
         // If there are no given position, rotation, scale
-        if (!opts.position) {
+        if(!opts.position) {
             /**
              * 平移
              * @type {Array.<number>}
@@ -32,7 +32,7 @@ define(function (require) {
              */
             this.position = [0, 0];
         }
-        if (opts.rotation == null) {
+        if(opts.rotation == null) {
             /**
              * 旋转
              * @type {Array.<number>}
@@ -40,7 +40,7 @@ define(function (require) {
              */
             this.rotation = 0;
         }
-        if (!opts.scale) {
+        if(!opts.scale) {
             /**
              * 缩放
              * @type {Array.<number>}
@@ -49,7 +49,24 @@ define(function (require) {
             this.scale = [1, 1];
         }
         /**
-         * 旋转和缩放的原点
+         * 旋转和缩放的原点. 执行旋转中心.
+         * example
+         *  let text = new Text({
+                style: {
+                    text: 'hello world',
+                    x: 100,
+                    y: 100,
+                    font: '30px 微软雅黑',
+                    fill: 'red'
+                },
+                origin: [120, 120]
+            });
+
+            text.animate('', { loop: true })
+            .when(2000, {
+                rotation: 2 * Math.PI
+            })
+            .start();
          * @type {Array.<number>}
          * @default null
          */
@@ -77,14 +94,14 @@ define(function (require) {
         var needLocalTransform = this.needLocalTransform();
 
         var m = this.transform;
-        if (!(needLocalTransform || parentHasTransform)) {
+        if(!(needLocalTransform || parentHasTransform)) {
             m && mIdentity(m);
             return;
         }
 
         m = m || matrix.create();
 
-        if (needLocalTransform) {
+        if(needLocalTransform) {
             this.getLocalTransform(m);
         }
         else {
@@ -92,8 +109,8 @@ define(function (require) {
         }
 
         // 应用父节点变换
-        if (parentHasTransform) {
-            if (needLocalTransform) {
+        if(parentHasTransform) {
+            if(needLocalTransform) {
                 matrix.mul(m, parent.transform, m);
             }
             else {
@@ -118,7 +135,7 @@ define(function (require) {
     transformableProto.setTransform = function (ctx) {
         var m = this.transform;
         var dpr = ctx.dpr || 1;
-        if (m) {
+        if(m) {
             ctx.setTransform(dpr * m[0], dpr * m[1], dpr * m[2], dpr * m[3], dpr * m[4], dpr * m[5]);
         }
         else {
@@ -137,12 +154,12 @@ define(function (require) {
      * 分解`transform`矩阵到`position`, `rotation`, `scale`
      */
     transformableProto.decomposeTransform = function () {
-        if (!this.transform) {
+        if(!this.transform) {
             return;
         }
         var parent = this.parent;
         var m = this.transform;
-        if (parent && parent.transform) {
+        if(parent && parent.transform) {
             // Get local transform and decompose them to position, scale, rotation
             matrix.mul(tmpTransform, parent.invTransform, m);
             m = tmpTransform;
@@ -151,16 +168,16 @@ define(function (require) {
         var sy = m[2] * m[2] + m[3] * m[3];
         var position = this.position;
         var scale = this.scale;
-        if (isNotAroundZero(sx - 1)) {
+        if(isNotAroundZero(sx - 1)) {
             sx = Math.sqrt(sx);
         }
-        if (isNotAroundZero(sy - 1)) {
+        if(isNotAroundZero(sy - 1)) {
             sy = Math.sqrt(sy);
         }
-        if (m[0] < 0) {
+        if(m[0] < 0) {
             sx = -sx;
         }
-        if (m[3] < 0) {
+        if(m[3] < 0) {
             sy = -sy;
         }
         position[0] = m[4];
@@ -176,15 +193,15 @@ define(function (require) {
      */
     transformableProto.getGlobalScale = function () {
         var m = this.transform;
-        if (!m) {
+        if(!m) {
             return [1, 1];
         }
         var sx = Math.sqrt(m[0] * m[0] + m[1] * m[1]);
         var sy = Math.sqrt(m[2] * m[2] + m[3] * m[3]);
-        if (m[0] < 0) {
+        if(m[0] < 0) {
             sx = -sx;
         }
-        if (m[3] < 0) {
+        if(m[3] < 0) {
             sy = -sy;
         }
         return [sx, sy];
@@ -199,7 +216,7 @@ define(function (require) {
     transformableProto.transformCoordToLocal = function (x, y) {
         var v2 = [x, y];
         var invTransform = this.invTransform;
-        if (invTransform) {
+        if(invTransform) {
             vector.applyTransform(v2, v2, invTransform);
         }
         return v2;
@@ -215,7 +232,7 @@ define(function (require) {
     transformableProto.transformCoordToGlobal = function (x, y) {
         var v2 = [x, y];
         var transform = this.transform;
-        if (transform) {
+        if(transform) {
             vector.applyTransform(v2, v2, transform);
         }
         return v2;
@@ -238,16 +255,16 @@ define(function (require) {
         var rotation = target.rotation || 0;
         var position = target.position || [0, 0];
 
-        if (origin) {
+        if(origin) {
             // Translate to origin
             m[4] -= origin[0];
             m[5] -= origin[1];
         }
         matrix.scale(m, m, scale);
-        if (rotation) {
+        if(rotation) {
             matrix.rotate(m, m, rotation);
         }
-        if (origin) {
+        if(origin) {
             // Translate back from origin
             m[4] += origin[0];
             m[5] += origin[1];
