@@ -27,6 +27,7 @@ define(function (require) {
 
         type: 'image',
 
+        // 加载的时候，原先没有this._iamge， 那就先加载，然后做缓存，缓存完毕，执行dirty(),然后进行重绘图片. 达到控制图片显示层级的效果.
         brush: function (ctx, prevEl) {
             var style = this.style;
             var src = style.image;
