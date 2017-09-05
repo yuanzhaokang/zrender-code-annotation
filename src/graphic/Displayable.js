@@ -153,7 +153,7 @@ define(function (require) {
          * 图形绘制方法
          * @param {Canvas2DRenderingContext} ctx
          */
-        // Interface
+        // Interface, 在Painter中调用.
         brush: function (ctx, prevEl) {},
 
         /**
