@@ -588,7 +588,7 @@
                 el.brush(ctx, scope.prevEl || null);
                 scope.prevEl = el;
 
-                // afterBrush 之后社会lineWidth = 0, 无法生效.
+                // afterBrush 之后设置lineWidth = 0, 无法生效.
                 el.afterBrush && el.afterBrush(ctx);
             }
         },
