@@ -156,6 +156,7 @@ define(function(require) {
         },
 
         /**
+         * 设置完之后会立即更新相应的属性.
          * @param {string|Object} key
          * @param {*} value
          */
