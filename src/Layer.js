@@ -91,7 +91,7 @@ define(function (require) {
          */
         this.clearColor = 0;
         /**
-         * 是否开启动态模糊
+         * 是否开启动态模糊, 可用于绘制带有渐变效果的图形；指定对应的图形的zlevel，配置motionBlur为true.
          * @type {boolean}
          * @default false
          */
