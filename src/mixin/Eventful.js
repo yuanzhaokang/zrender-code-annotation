@@ -132,7 +132,7 @@ define(function (require) {
         },
 
         /**
-         * 事件分发. 可以手动触发事件。就像jquery的$(selector).click();
+         * 事件分发. 可以手动触发事件。就像jquery的$(selector).click(); 可在arguments中传递event
          *
          * @param {string} type 事件类型
          */
